@@ -1,11 +1,15 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 import indexRoutes from './routes/indexRoutes.js';
 import taskRoutes from './routes/tasksRoutes.js';
 
 import { PORT } from './config.js';
 
 const app = express();
+
+// cors es un middleware que nos permite hacer peticiones desde un servidor a otro
+app.use(cors());
 
 // morgan es un middleware que nos permite ver en consola las peticiones que llegan al servidor
 app.use(morgan('dev'));
