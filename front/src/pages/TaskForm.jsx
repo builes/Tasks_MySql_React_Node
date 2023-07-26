@@ -1,22 +1,59 @@
 import { Formik, Form } from 'formik';
-import { createTask } from '../api/tasks';
+import { createTask, getTask, updateTask } from '../api/tasks';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export const TaskForm = () => {
+	const { id } = useParams();
+
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const getTaskById = async () => {
+			try {
+				const response = await getTask(id);
+				const task = response.data;
+				setTitle(task.title);
+				setDescription(task.description);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		if (id) {
+			getTaskById();
+		}
+	}, []);
+
 	return (
 		<div>
+			<h1>{!id ? 'Create Task' : 'Edit Task'}</h1>
 			{/* Formik nos permite mantener el estado y nos evita estar usando estados*/}
 			<Formik
 				initialValues={{
-					title: '',
-					description: '',
+					title,
+					description,
 				}}
+				enableReinitialize={true}
 				// con onsubmit le decimos que hacer cuando se envie el formulario
+				// values son los valores  que hay escrito en los inputs
 				onSubmit={async (values, actions) => {
-					console.log(values);
 					try {
-						const response = await createTask(values);
-						console.log(response);
-						actions.resetForm();
+						if (id) {
+							await updateTask(id, values);
+							console.log(values);
+						} else {
+							const response = await createTask(values);
+							actions.resetForm();
+						}
+
+						setTitle('');
+						setDescription('');
+
+						navigate('/');
 					} catch (error) {
 						console.log(error);
 					}

@@ -8,6 +8,7 @@ export const RoutesApp = () => {
 		<Routes>
 			<Route path='/' element={<Tasks />} />
 			<Route path='/new' element={<TaskForm />} />
+			<Route path='/edit/:id' element={<TaskForm />} />
 			<Route path='/*' element={<NotFound />} />
 		</Routes>
 	);

@@ -51,11 +51,11 @@ export const updateTask = async (req, res) => {
 	try {
 		const { id } = req.params;
 
-		const { title, description } = req.body;
+		const { title, description, done = false } = req.body;
 
 		const [task] = await pool.query(
-			'UPDATE tasks SET title = ?, description = ? WHERE id = ?',
-			[title, description, id]
+			'UPDATE tasks SET title = ?, description = ?, done = ? WHERE id = ?',
+			[title, description, done, id]
 		);
 
 		if (task.affectedRows === 0)
