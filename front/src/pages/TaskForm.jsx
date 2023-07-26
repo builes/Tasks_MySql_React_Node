@@ -30,7 +30,6 @@ export const TaskForm = () => {
 
 	return (
 		<div>
-			<h1>{!id ? 'Create Task' : 'Edit Task'}</h1>
 			{/* Formik nos permite mantener el estado y nos evita estar usando estados*/}
 			<Formik
 				initialValues={{
@@ -44,7 +43,6 @@ export const TaskForm = () => {
 					try {
 						if (id) {
 							await updateTask(id, values);
-							console.log(values);
 						} else {
 							const response = await createTask(values);
 							actions.resetForm();
@@ -63,8 +61,17 @@ export const TaskForm = () => {
 				{/* values hace referencia a los valores de initial values */}
 				{/* isSubmitting es para saber si se esta enviando los datos del form **/}
 				{({ handleChange, handleSubmit, values, isSubmitting }) => (
-					<Form onSubmit={handleSubmit}>
-						<label htmlFor='title'>Title</label>
+					<Form
+						onSubmit={handleSubmit}
+						className='bg-slate-300 max-w-sm rounded-md p-4 mx-auto mt-10'
+					>
+						<h1 className='text-xl font-bold uppercase text-center'>
+							{!id ? 'Create Task' : 'Edit Task'}
+						</h1>
+
+						<label htmlFor='title' className='block'>
+							Title
+						</label>
 						<input
 							type='text'
 							name='title'
@@ -73,9 +80,12 @@ export const TaskForm = () => {
 							onChange={handleChange}
 							value={values.title}
 							required
+							className='px-2 py-1 rounded-md w-full mb-2'
 						/>
 
-						<label htmlFor='description'>Description</label>
+						<label htmlFor='description' className='block'>
+							Description
+						</label>
 						<textarea
 							type='text'
 							name='description'
@@ -84,9 +94,14 @@ export const TaskForm = () => {
 							onChange={handleChange}
 							value={values.description}
 							required
+							className='px-2 py-1 rounded-md w-full mb-2'
 						/>
 
-						<button type='submit' disabled={isSubmitting}>
+						<button
+							className='w-full bg-indigo-500 px-2 py-1 text-white rounded-md'
+							type='submit'
+							disabled={isSubmitting}
+						>
 							{isSubmitting ? 'Saving' : 'Save'}
 						</button>
 					</Form>

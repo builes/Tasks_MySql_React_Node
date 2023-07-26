@@ -4,9 +4,13 @@ import { RoutesApp } from './routes/RoutesApp';
 
 export const App = () => {
 	return (
-		<TaskProvider>
+		<div className='bg-zinc-900 h-screen'>
 			<Navbar />
-			<RoutesApp />;
-		</TaskProvider>
+			<div className='container mx-auto py-4'>
+				<TaskProvider className>
+					<RoutesApp />;
+				</TaskProvider>
+			</div>
+		</div>
 	);
 };
